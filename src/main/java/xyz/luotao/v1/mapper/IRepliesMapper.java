@@ -40,4 +40,8 @@ public interface IRepliesMapper {
     @Update("UPDATE post_replies SET like_count = like_count - 1 WHERE id = #{replyId} AND like_count > 0")
     int decrementReplyLikeCount(@Param("replyId") Long replyId);
 
+    // 根据ID查询回复
+    @Select("SELECT * FROM post_replies WHERE id = #{replyId}")
+    post_replies findReplyById(@Param("replyId") Long replyId);
+
 }
