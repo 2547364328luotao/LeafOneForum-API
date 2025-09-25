@@ -32,4 +32,8 @@ public interface IRepliesMapper {
             "VALUES (#{replyId}, #{userId}, NOW())")
     int addReplyLikeRecord(@Param("replyId") Long replyId, @Param("userId") Long userId);
 
+    //取消回复点赞
+    @Delete("DELETE FROM reply_likes WHERE reply_id = #{replyId} AND user_id = #{userId }")
+    int removeReplyLikeRecord(@Param("replyId") Long replyId, @Param("userId") Long userId);
+
 }
