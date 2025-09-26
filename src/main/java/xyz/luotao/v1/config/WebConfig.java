@@ -42,7 +42,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/**/*.png",
                         "/**/*.jpg",
                         "/public/**",
-                        "/static/**"
+                        "/static/**",
+                        "/redis/**" // 放行 Redis 测试端点
                 );
     }
 }
