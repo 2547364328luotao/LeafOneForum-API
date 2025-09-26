@@ -1,0 +1,15 @@
+package xyz.luotao.v1.entity.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class CategoryPostCountDTO {
+    private Long categoryId;
+    private String categoryName;
+    private int postCount;
+}
+
