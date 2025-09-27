@@ -14,13 +14,25 @@ public interface IDashboardMapper {
     @Select("SELECT COUNT(*) FROM users")
     int getTotalUsers();
 
+    // 截至昨天的用户总数
+    @Select("SELECT COUNT(*) FROM users WHERE created_at < CURDATE()")
+    int getTotalUsersBeforeToday();
+
     // 查询文章总数
     @Select("SELECT COUNT(*) FROM posts")
     int getTotalPosts();
 
+    // 截至昨天的文章总数
+    @Select("SELECT COUNT(*) FROM posts WHERE created_at < CURDATE()")
+    int getTotalPostsBeforeToday();
+
     // 查询评论总数（回复总数）
     @Select("SELECT COUNT(*) FROM post_replies")
     int getTotalComments();
+
+    // 截至昨天的评论总数（回复总数）
+    @Select("SELECT COUNT(*) FROM post_replies WHERE created_at < CURDATE()")
+    int getTotalCommentsBeforeToday();
 
     // 各分类文章数量分布（包含没有文章的分类）
     @Select("""

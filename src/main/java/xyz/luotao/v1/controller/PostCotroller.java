@@ -57,6 +57,14 @@ public class PostCotroller {
         return ResponseEntity.ok(ResponseMessage.success(200,"发布文章成功",postDao));
     }
 
+    //获取最新文章
+    @GetMapping("/latest")
+    public ResponseEntity<ResponseMessage> getLatestPosts(@RequestParam(defaultValue = "5") int limit){
+        List<Post> posts = postMapper.selectLatestPosts(limit);
+        log.info("获取最新文章成功：{}", posts);
+        return ResponseEntity.ok(ResponseMessage.success(200,"最新文章返回成功",posts));
+    }
+
     //分页查询所有文章
     @GetMapping("/findByPage")
     public ResponseEntity<ResponseMessage> getPostsByPage(@RequestParam(defaultValue = "1") long pageNo){

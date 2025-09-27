@@ -12,6 +12,25 @@ import xyz.luotao.v1.entity.dto.PostDto;
 @Mapper
 public interface IPostMapper {
 
+    //获取最新文章
+    @Select("SELECT p.*, u.nickname AS author_nickname " +
+            "FROM posts p LEFT JOIN users u ON p.author_id = u.id " +
+            "ORDER BY p.created_at DESC LIMIT #{limit}")
+    @Results({
+            @Result(column = "id", property = "id"),
+            @Result(column = "category_id", property = "categoryId"),
+            @Result(column = "author_id", property = "authorId"),
+            @Result(column = "title", property = "title"),
+            @Result(column = "cover_url", property = "coverUrl"),
+            @Result(column = "synopsis", property = "synopsis"),
+            @Result(column = "content", property = "content"),
+            @Result(column = "status", property = "status"),
+            @Result(column = "created_at", property = "createdAt"),
+            @Result(column = "updated_at", property = "updatedAt"),
+            @Result(column = "author_nickname", property = "authorNickname")
+    })
+    java.util.List<Post> selectLatestPosts(@Param("limit") @NotNull @Positive int limit);
+
     // 分页：所有文章带上作者信息
     @Select("SELECT p.*, u.nickname AS author_nickname " +
             "FROM posts p LEFT JOIN users u ON p.author_id = u.id " +
