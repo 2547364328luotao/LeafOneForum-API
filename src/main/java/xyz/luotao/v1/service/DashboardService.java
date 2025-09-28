@@ -8,6 +8,9 @@ import xyz.luotao.v1.entity.dto.DashboardMetricCardDTO;
 import xyz.luotao.v1.entity.dto.DashboardStatsDTO;
 import xyz.luotao.v1.mapper.IDashboardMapper;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -47,6 +50,24 @@ public class DashboardService {
         dto.setLast7DaysNewUsers(last7DaysNewUsers);
         dto.setOverviewCards(buildOverviewCards(users, usersYesterday, online, onlineYesterday, posts, postsYesterday, comments, commentsYesterday));
         return dto;
+    }
+
+    public List<DailyCountDTO> getMonthlyRegistrations(String month) {
+        YearMonth yearMonth = parseMonth(month);
+        LocalDate startDate = yearMonth.atDay(1);
+        LocalDate endDate = yearMonth.atEndOfMonth();
+        return dashboardMapper.getMonthlyNewUsers(startDate, endDate);
+    }
+
+    private YearMonth parseMonth(String month) {
+        if (month == null) {
+            throw new IllegalArgumentException("月份参数不能为空");
+        }
+        try {
+            return YearMonth.parse(month);
+        } catch (DateTimeException ex) {
+            throw new IllegalArgumentException("月份格式应为yyyy-MM", ex);
+        }
     }
 
     private List<DashboardMetricCardDTO> buildOverviewCards(int users, int usersYesterday,

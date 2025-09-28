@@ -1,10 +1,12 @@
 package xyz.luotao.v1.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import xyz.luotao.v1.entity.dto.CategoryPostCountDTO;
 import xyz.luotao.v1.entity.dto.DailyCountDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Mapper
@@ -61,4 +63,21 @@ public interface IDashboardMapper {
             ORDER BY d
             """)
     List<DailyCountDTO> getLast7DaysNewUsers();
+
+    // 指定月份每天的新增注册人数（包含没有注册的日期）
+    @Select("""
+            WITH RECURSIVE days AS (
+                SELECT CAST(#{startDate} AS DATE) AS d
+                UNION ALL
+                SELECT DATE_ADD(d, INTERVAL 1 DAY) FROM days WHERE d < #{endDate}
+            )
+            SELECT DATE_FORMAT(d, '%Y-%m-%d') AS date,
+                   COUNT(u.id) AS count
+            FROM days
+            LEFT JOIN users u ON DATE(u.created_at) = d
+            GROUP BY d
+            ORDER BY d
+            """)
+    List<DailyCountDTO> getMonthlyNewUsers(@Param("startDate") LocalDate startDate,
+                                           @Param("endDate") LocalDate endDate);
 }
