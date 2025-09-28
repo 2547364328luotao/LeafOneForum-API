@@ -25,6 +25,8 @@ public class UserController {
 
     @Autowired
     private IUserMapper userMapper;
+    @Autowired
+    private PostLikeMapper postLikeMapper;
 
 
     //查询所有用户
@@ -34,12 +36,14 @@ public class UserController {
         log.info("所有用户查询成功：", list);
         return ResponseEntity.ok(ResponseMessage.success(list));
     }
+
+
     //获取单个用户信息-只能获取自己账号信息
     @GetMapping("/{id}")
     public ResponseEntity<ResponseMessage> getUserById(@PathVariable Long id , HttpSession session) {
         //从session中获取当前登录的用户
         User currentUser = (User) session.getAttribute("user");
-        if(currentUser.getId() != id){
+        if (currentUser == null || currentUser.getId() == null || !currentUser.getId().equals(id)) {
             return ResponseEntity
                     .status(HttpStatus.FORBIDDEN)
                     .body(new ResponseMessage(403, "禁止访问他人信息", null));
@@ -50,6 +54,8 @@ public class UserController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new ResponseMessage(404, "用户未找到", null));
         }
+        List<Long> postIdsByUserId = postLikeMapper.FindLikedPostIdsByUserId(user.getId());
+        user.setLikedPostIds(postIdsByUserId);
         log.info("成功获取用户信息：{}", user);
         return ResponseEntity.ok(ResponseMessage.success(user));
     }
@@ -77,6 +83,7 @@ public class UserController {
 
 
     }
+
     //添加用户宿舍信息
     @PostMapping("/dormitory")
     public ResponseEntity<ResponseMessage> addDormitoryInfo(@RequestBody User user) {
@@ -120,32 +127,3 @@ public class UserController {
         return ResponseEntity.ok(ResponseMessage.success(user));
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
