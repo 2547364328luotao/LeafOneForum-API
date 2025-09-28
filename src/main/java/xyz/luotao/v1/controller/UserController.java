@@ -83,6 +83,7 @@ public class UserController {
 
 
     }
+
     //添加用户宿舍信息
     @PostMapping("/dormitory")
     public ResponseEntity<ResponseMessage> addDormitoryInfo(@RequestBody User user) {
