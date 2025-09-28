@@ -153,4 +153,7 @@ public interface IPostMapper {
     @Update("UPDATE posts SET view_count = view_count + 1 WHERE id = #{postId}")
     public boolean incrementViewCount(Long postId);
 
+    //取消文章点赞
+    @Update("UPDATE posts SET like_count = like_count - 1 WHERE id = #{postId} AND like_count > 0")
+    boolean UnlikePost(Long postId);
 }

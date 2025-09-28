@@ -110,8 +110,8 @@ public class PostCotroller {
     }
 
     //给文章点赞
-    @PutMapping("/like/{postId}")
-    public ResponseEntity<ResponseMessage> likePost(@PathVariable Long postId, HttpSession session){
+    @PostMapping("/like")
+    public ResponseEntity<ResponseMessage> likePost(@RequestParam Long postId, HttpSession session){
         //打印SESSIONID
         System.out.println(session.getId());
         User user = (User)session.getAttribute("user");
@@ -127,8 +127,27 @@ public class PostCotroller {
             return ResponseEntity.ok(ResponseMessage.success(200,"点赞文章成功",null));
         }catch (org.springframework.dao.DuplicateKeyException e){
             return ResponseEntity.ok(ResponseMessage.success(200, "已点赞成功，请勿重复点击", null));
+        }catch (org.springframework.dao.DataIntegrityViolationException e){
+            // 捕获由于外键约束（文章不存在）导致的异常
+            log.warn("点赞文章失败，文章不存在，postId={}", postId, e);
+            return ResponseEntity.ok(ResponseMessage.success(200, "暂无此文章ID", null));
         }
 
+    }
+
+    //取消文章点赞
+    @PostMapping("/unlike")
+    public ResponseEntity<ResponseMessage> unlikePost(@RequestParam Long postId, HttpSession session){
+        User user = (User)session.getAttribute("user");
+        boolean success1 = postMapper.UnlikePost(postId);
+        boolean success2 = postLikeMapper.RemovePostLike(postId, user.getId());
+        if (!success1 || !success2) {
+            return ResponseEntity
+                    .status(500)
+                    .body(new ResponseMessage(500, "取消点赞文章失败", null));
+        }
+        log.info("成功取消点赞文章，文章ID：{}", postId);
+        return ResponseEntity.ok(ResponseMessage.success(200,"取消点赞文章成功",null));
     }
 
     //文章阅读量增加
@@ -144,4 +163,3 @@ public class PostCotroller {
         return ResponseEntity.ok(ResponseMessage.success(200,"文章阅读量增加成功",null));
     }
 }
-
