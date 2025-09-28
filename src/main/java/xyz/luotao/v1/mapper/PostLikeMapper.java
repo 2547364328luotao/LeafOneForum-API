@@ -1,9 +1,9 @@
 package xyz.luotao.v1.mapper;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
+import xyz.luotao.v1.entity.Post;
+
+import java.util.List;
 
 @Mapper
 public interface PostLikeMapper {
@@ -15,5 +15,9 @@ public interface PostLikeMapper {
     //并在post_likes表中删除用户点赞信息
     @Delete("DELETE FROM post_likes WHERE post_id = #{postId} AND user_id = #{userId}")
     boolean RemovePostLike(@Param("postId") Long postId, @Param("userId") Long userId);
+
+    //根据用户ID查询用户点赞的文章ID
+    @Select("SELECT post_id FROM post_likes WHERE user_id = #{userId}")
+    List<Long> FindLikedPostIdsByUserId(Long userId);
 
 }

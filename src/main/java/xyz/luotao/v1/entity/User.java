@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 /**
@@ -18,6 +19,7 @@ import org.hibernate.validator.constraints.Length;
 * @TableName users
 */
 @TableName("users")
+@Data
 public class User implements Serializable {
 
     /**
@@ -84,118 +86,11 @@ public class User implements Serializable {
     @ApiModelProperty("头像URL")
     private String avatarUrl;
 
-    public String getAvatarUrl() {
-        return avatarUrl;
-    }
-
-    public void setAvatarUrl(String avatarUrl) {
-        this.avatarUrl = avatarUrl;
-    }
-
     /**
-    * 用户ID
-    */
-    public void setId(Long id){
-    this.id = id;
-    }
-
-    /**
-    * 昵称
-    */
-    public void setNickname(String nickname){
-    this.nickname = nickname;
-    }
-
-    /**
-    * 邮箱（唯一）
-    */
-    public void setEmail(String email){
-    this.email = email;
-    }
-
-    /**
-    * 密码哈希（如 bcrypt）
-    */
-    public void setPasswordHash(String passwordHash){
-    this.passwordHash = passwordHash;
-    }
-
-    /**
-    * 房间号，例如：南一548
-    */
-    public void setRoomNumber(String roomNumber){
-    this.roomNumber = roomNumber;
-    }
-
-    /**
-    * 房间电表密码（默认值）
-    */
-    public void setRoomMeterPassword(String roomMeterPassword){
-    this.roomMeterPassword = roomMeterPassword;
-    }
-
-    /**
-    * 账号创建时间
-    */
-    public void setCreatedAt(Date createdAt){
-    this.createdAt = createdAt;
-    }
+     * 用户点赞的文章ID列表
+     */
+    @TableField(exist = false)
+    private List<Long> likedPostIds;
 
 
-    /**
-    * 用户ID
-    */
-    public Long getId(){
-    return this.id;
-    }
-
-    /**
-    * 昵称
-    */
-    public String getNickname(){
-    return this.nickname;
-    }
-
-    /**
-    * 邮箱（唯一）
-    */
-    public String getEmail(){
-    return this.email;
-    }
-
-    /**
-    * 密码哈希（如 bcrypt）
-    */
-    public String getPasswordHash(){
-    return this.passwordHash;
-    }
-
-    /**
-    * 房间号，例如：南一548
-    */
-    public String getRoomNumber(){
-    return this.roomNumber;
-    }
-
-    /**
-    * 房间电表密码（默认值）
-    */
-    public String getRoomMeterPassword(){
-    return this.roomMeterPassword;
-    }
-
-    /**
-    * 账号创建时间
-    */
-    public Date getCreatedAt(){
-    return this.createdAt;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
-    }
 }
