@@ -74,6 +74,27 @@ public class RepliesController {
         }
         return ResponseEntity.ok(ResponseMessage.success(200, "回复点赞成功", null));
     }
+    // 回复取消点赞（幂等）
+    @PostMapping("/unlike")
+    @Transactional
+    public ResponseEntity<ResponseMessage> unlikeReply(
+            @RequestParam @NotNull @Positive Long replyId,
+            HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        // 1. 先删除点赞记录
+        int deleted = repliesMapper.removeReplyLikeRecord(replyId, user.getId());
+        if (deleted == 0) {
+            // 无记录可删 -> 返回幂等结果
+            return ResponseEntity.ok(ResponseMessage.success(200, "未点赞，无需取消", null));
+        }
+        // 2. 仅在删除成功时递减点赞数
+        int updated = repliesMapper.decrementReplyLikeCount(replyId);
+        if (updated == 0) {
+            // 触发回滚，避免只删记录但未减计数
+            throw new IllegalStateException("更新点赞数失败");
+        }
+        return ResponseEntity.ok(ResponseMessage.success(200, "取消回复点赞成功", null));
+    }
 
 
     //查询所有回复
