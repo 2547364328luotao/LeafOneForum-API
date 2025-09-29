@@ -2,6 +2,8 @@ package xyz.luotao.v1.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -14,6 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+@Entity
 /**
 * 叶一论坛-用户表
 * @TableName users
@@ -22,10 +25,12 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class User implements Serializable {
 
+
     /**
     * 用户ID
     */
     //@NotNull(message="[用户ID]不能为空")
+    @Id
     @ApiModelProperty("用户ID")
     private Long id;
     /**

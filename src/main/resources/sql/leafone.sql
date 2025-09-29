@@ -74,7 +74,7 @@ INSERT INTO `permissions` VALUES (9, 'forum.section.manage', '管理版块', '�
 INSERT INTO `permissions` VALUES (10, 'forum.settings.manage', '管理论坛设置', '站点配置/全局设置', '2025-09-17 14:59:16');
 
 -- ----------------------------
--- Table structure for post_likes
+-- Table structure for PostLikes
 -- ----------------------------
 DROP TABLE IF EXISTS `post_likes`;
 CREATE TABLE `post_likes`  (
@@ -88,7 +88,7 @@ CREATE TABLE `post_likes`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章点赞关联表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of post_likes
+-- Records of PostLikes
 -- ----------------------------
 INSERT INTO `post_likes` VALUES (1, 18, '2025-09-18 09:05:30');
 INSERT INTO `post_likes` VALUES (1, 19, '2025-09-18 09:06:10');
@@ -118,7 +118,7 @@ INSERT INTO `post_likes` VALUES (8, 40, '2025-09-19 01:42:49');
 INSERT INTO `post_likes` VALUES (16, 40, '2025-09-19 01:43:01');
 
 -- ----------------------------
--- Table structure for post_replies
+-- Table structure for PostReplies
 -- ----------------------------
 DROP TABLE IF EXISTS `post_replies`;
 CREATE TABLE `post_replies`  (
@@ -140,7 +140,7 @@ CREATE TABLE `post_replies`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '文章回复表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of post_replies
+-- Records of PostReplies
 -- ----------------------------
 INSERT INTO `post_replies` VALUES (1, 1, 18, NULL, '支持！一起建设文明友好的社区～', 2, '2025-09-18 09:10:00', '2025-09-18 09:10:00');
 INSERT INTO `post_replies` VALUES (2, 1, 19, 1, '置顶很有用，新人一看就懂规则。', 1, '2025-09-18 09:15:00', '2025-09-18 09:15:00');
@@ -282,7 +282,7 @@ INSERT INTO `reply_likes` VALUES (8, 26, '2025-09-18 09:36:00');
 INSERT INTO `reply_likes` VALUES (13, 41, '2025-09-18 09:34:00');
 
 -- ----------------------------
--- Table structure for role_permissions
+-- Table structure for RolePermissions
 -- ----------------------------
 DROP TABLE IF EXISTS `role_permissions`;
 CREATE TABLE `role_permissions`  (
@@ -296,7 +296,7 @@ CREATE TABLE `role_permissions`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色-权限 关系' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of role_permissions
+-- Records of RolePermissions
 -- ----------------------------
 INSERT INTO `role_permissions` VALUES (1, 1, '2025-09-17 14:59:42');
 INSERT INTO `role_permissions` VALUES (1, 2, '2025-09-17 14:59:42');
@@ -320,7 +320,7 @@ INSERT INTO `role_permissions` VALUES (4, 4, '2025-09-17 15:00:36');
 INSERT INTO `role_permissions` VALUES (4, 5, '2025-09-17 15:00:36');
 
 -- ----------------------------
--- Table structure for roles
+-- Table structure for Role
 -- ----------------------------
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles`  (
@@ -335,7 +335,7 @@ CREATE TABLE `roles`  (
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of roles
+-- Records of Role
 -- ----------------------------
 INSERT INTO `roles` VALUES (1, 'organizer', '组织者', '拥有全部权限', 1, '2025-09-17 14:57:54');
 INSERT INTO `roles` VALUES (2, 'admin', '管理员', '负责组织管理/活动管理等', 1, '2025-09-17 14:57:54');
@@ -344,7 +344,7 @@ INSERT INTO `roles` VALUES (4, 'user', '普通用户', '普通论坛用户', 1, 
 INSERT INTO `roles` VALUES (5, 'banned', '封禁用户', '被封禁用户（限制发言/行为）', 1, '2025-09-17 14:57:54');
 
 -- ----------------------------
--- Table structure for user_roles
+-- Table structure for UserRoles
 -- ----------------------------
 DROP TABLE IF EXISTS `user_roles`;
 CREATE TABLE `user_roles`  (
@@ -363,7 +363,7 @@ CREATE TABLE `user_roles`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户-角色 关系' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of user_roles
+-- Records of UserRoles
 -- ----------------------------
 INSERT INTO `user_roles` VALUES (6, 2, NULL, '2025-09-17 15:00:56', NULL, '2025-09-17 15:00:56', NULL);
 INSERT INTO `user_roles` VALUES (19, 5, NULL, '2025-09-17 21:17:32', NULL, '2025-09-17 21:17:32', NULL);

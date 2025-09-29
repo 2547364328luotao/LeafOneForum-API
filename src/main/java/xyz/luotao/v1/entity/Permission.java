@@ -1,8 +1,7 @@
-package generator.entity;
+package xyz.luotao.v1.entity;
 
-import jakarta.validation.constraints.NotBlank;
+import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serializable;
 
@@ -11,49 +10,45 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
 
 /**
-* 文章分类表
-* @TableName categories
+* 权限表
+* @TableName permissions
 */
-public class categories implements Serializable {
+@TableName(value ="permissions")
+public class Permission implements Serializable {
 
     /**
     * 
     */
-    @NotNull(message="[]不能为空")
+    //@NotNull(message="[]不能为空")
     @ApiModelProperty("")
     private Long id;
     /**
-    * 分类名称
+    * 权限唯一编码，如 forum.thread.delete
     */
-    @NotBlank(message="[分类名称]不能为空")
+    //@NotBlank(message="[权限唯一编码，如 forum.thread.delete]不能为空")
     @Size(max= 100,message="编码长度不能超过100")
-    @ApiModelProperty("分类名称")
+    @ApiModelProperty("权限唯一编码，如 forum.thread.delete")
     @Length(max= 100,message="编码长度不能超过100")
-    private String name;
+    private String code;
     /**
-    * 唯一短标识（用于URL）
+    * 展示名称
     */
-    @NotBlank(message="[唯一短标识（用于URL）]不能为空")
+    //@NotBlank(message="[展示名称]不能为空")
     @Size(max= 100,message="编码长度不能超过100")
-    @ApiModelProperty("唯一短标识（用于URL）")
+    @ApiModelProperty("展示名称")
     @Length(max= 100,message="编码长度不能超过100")
-    private String slug;
-    /**
-    * 分类简介
-    */
-    @Size(max= 255,message="编码长度不能超过255")
-    @ApiModelProperty("分类简介")
-    @Length(max= 255,message="编码长度不能超过255")
-    private String description;
-    /**
-    * 父级分类（可空）
-    */
-    @ApiModelProperty("父级分类（可空）")
-    private Long parentId;
+    private String displayName;
     /**
     * 
     */
-    @NotNull(message="[]不能为空")
+    @Size(max= 255,message="编码长度不能超过255")
+    @ApiModelProperty("")
+    @Length(max= 255,message="编码长度不能超过255")
+    private String description;
+    /**
+    * 
+    */
+    //@NotNull(message="[]不能为空")
     @ApiModelProperty("")
     private Date createdAt;
 
@@ -65,31 +60,24 @@ public class categories implements Serializable {
     }
 
     /**
-    * 分类名称
+    * 权限唯一编码，如 forum.thread.delete
     */
-    public void setName(String name){
-    this.name = name;
+    public void setCode(String code){
+    this.code = code;
     }
 
     /**
-    * 唯一短标识（用于URL）
+    * 展示名称
     */
-    public void setSlug(String slug){
-    this.slug = slug;
+    public void setDisplayName(String displayName){
+    this.displayName = displayName;
     }
 
     /**
-    * 分类简介
+    * 
     */
     public void setDescription(String description){
     this.description = description;
-    }
-
-    /**
-    * 父级分类（可空）
-    */
-    public void setParentId(Long parentId){
-    this.parentId = parentId;
     }
 
     /**
@@ -108,31 +96,24 @@ public class categories implements Serializable {
     }
 
     /**
-    * 分类名称
+    * 权限唯一编码，如 forum.thread.delete
     */
-    public String getName(){
-    return this.name;
+    public String getCode(){
+    return this.code;
     }
 
     /**
-    * 唯一短标识（用于URL）
+    * 展示名称
     */
-    public String getSlug(){
-    return this.slug;
+    public String getDisplayName(){
+    return this.displayName;
     }
 
     /**
-    * 分类简介
+    * 
     */
     public String getDescription(){
     return this.description;
-    }
-
-    /**
-    * 父级分类（可空）
-    */
-    public Long getParentId(){
-    return this.parentId;
     }
 
     /**

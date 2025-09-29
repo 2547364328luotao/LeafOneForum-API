@@ -1,12 +1,11 @@
 package xyz.luotao.v1.mapper;
 
 import org.apache.ibatis.annotations.*;
-import xyz.luotao.v1.entity.Post;
 
 import java.util.List;
 
 @Mapper
-public interface PostLikeMapper {
+public interface IPostLikeMapper {
 
     //插入文章点赞记录
     @Insert("INSERT INTO post_likes(post_id, user_id) VALUES(#{postId}, #{userId})")

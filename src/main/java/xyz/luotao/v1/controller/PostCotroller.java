@@ -17,7 +17,7 @@ import xyz.luotao.v1.entity.User;
 import xyz.luotao.v1.entity.dto.PostDto;
 import xyz.luotao.v1.mapper.IPostMapper;
 import xyz.luotao.v1.mapper.IUserRoleMapper;
-import xyz.luotao.v1.mapper.PostLikeMapper;
+import xyz.luotao.v1.mapper.IPostLikeMapper;
 import xyz.luotao.v1.service.RolesService;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class PostCotroller {
     @Autowired
     private IPostMapper postMapper;
     @Autowired
-    private PostLikeMapper postLikeMapper;
+    private IPostLikeMapper IPostLikeMapper;
     @Autowired
     private IUserRoleMapper userRoleMapper;
     @Autowired
@@ -117,7 +117,7 @@ public class PostCotroller {
         User user = (User)session.getAttribute("user");
         try{
             boolean success1 = postMapper.LikePost(postId);
-            boolean success2 = postLikeMapper.AddPostLike(postId, user.getId());
+            boolean success2 = IPostLikeMapper.AddPostLike(postId, user.getId());
             if (!success1 || !success2) {
                 return ResponseEntity
                         .status(500)
@@ -140,7 +140,7 @@ public class PostCotroller {
     public ResponseEntity<ResponseMessage> unlikePost(@RequestParam Long postId, HttpSession session){
         User user = (User)session.getAttribute("user");
         boolean success1 = postMapper.UnlikePost(postId);
-        boolean success2 = postLikeMapper.RemovePostLike(postId, user.getId());
+        boolean success2 = IPostLikeMapper.RemovePostLike(postId, user.getId());
         if (!success1 || !success2) {
             return ResponseEntity
                     .status(500)

@@ -7,13 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
-    private final AuthInterceptor authInterceptor;
-
-    public WebConfig(AuthInterceptor authInterceptor) {
-        this.authInterceptor = authInterceptor;
-    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -22,28 +15,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true)
                 .maxAge(3600);
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns(
-                        "/login",
-                        "/sign",
-                        "/sign/**",
-                        "/error",
-                        "/actuator/**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/favicon.ico",
-                        "/**/*.js",
-                        "/**/*.css",
-                        "/**/*.png",
-                        "/**/*.jpg",
-                        "/public/**",
-                        "/static/**",
-                        "/redis/**" // 放行 Redis 测试端点
-                );
     }
 }

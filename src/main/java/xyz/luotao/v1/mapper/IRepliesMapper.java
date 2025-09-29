@@ -1,9 +1,7 @@
 package xyz.luotao.v1.mapper;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import org.apache.ibatis.annotations.*;
-import xyz.luotao.v1.entity.post_replies;
+import xyz.luotao.v1.entity.PostReplies;
 
 import java.util.List;
 
@@ -17,11 +15,11 @@ public interface IRepliesMapper {
 
     //查询所有回复
     @Select("SELECT * FROM post_replies")
-    List<post_replies> getAllReplies();
+    List<PostReplies> getAllReplies();
 
     //给定文章ID查询回复数据
     @Select("SELECT * FROM post_replies WHERE post_id = #{postId} ORDER BY created_at ASC")
-    List<post_replies> getRepliesByPostId(Long postId);
+    List<PostReplies> getRepliesByPostId(Long postId);
 
     //回复点赞
     @Update("UPDATE post_replies SET like_count = like_count + 1 WHERE id = #{replyId}")
@@ -42,6 +40,6 @@ public interface IRepliesMapper {
 
     // 根据ID查询回复
     @Select("SELECT * FROM post_replies WHERE id = #{replyId}")
-    post_replies findReplyById(@Param("replyId") Long replyId);
+    PostReplies findReplyById(@Param("replyId") Long replyId);
 
 }

@@ -6,13 +6,12 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import xyz.luotao.v1.common.ResponseMessage;
+import xyz.luotao.v1.entity.PostReplies;
 import xyz.luotao.v1.entity.User;
 import xyz.luotao.v1.entity.dto.RepliesDto;
-import xyz.luotao.v1.entity.post_replies;
 import xyz.luotao.v1.mapper.IPostMapper;
 import xyz.luotao.v1.mapper.IRepliesMapper;
 
@@ -100,7 +99,7 @@ public class RepliesController {
     //查询所有回复
     @GetMapping("/all")
     public ResponseEntity<ResponseMessage> getAllReplies() {
-        List<post_replies> allReplies = repliesMapper.getAllReplies();
+        List<PostReplies> allReplies = repliesMapper.getAllReplies();
         return ResponseEntity.ok(ResponseMessage.success(200, "查询成功", allReplies));
     }
 
@@ -109,7 +108,7 @@ public class RepliesController {
     public ResponseEntity<ResponseMessage> getRepliesByPostId(
             @RequestParam @NotNull @Positive Long postId) {
 
-        List<post_replies> replies = repliesMapper.getRepliesByPostId(postId);
+        List<PostReplies> replies = repliesMapper.getRepliesByPostId(postId);
         if (replies == null) {
             replies = Collections.emptyList();
         }

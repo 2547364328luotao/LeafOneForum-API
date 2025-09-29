@@ -36,12 +36,12 @@ public class LoginCotroller {
         }
         session.setAttribute("user", user);
         //生成JWT返回给前端
-        String token = JwtUtil.generateToken(String.valueOf(user.getId()));
+        String token = JwtUtil.generateToken(String.valueOf(userDto.getEmail()));
         //构建返回给前端的token对象
         Token tokenObj = new Token();
         tokenObj.setToken(token);
         tokenObj.setSessionId(session.getId());
-        log.info(user.getNickname()+" 登录成功，sessionId={}", session.getId());
+        log.info(user.getNickname()+" 登录成功,sessionId={}", session.getId());
         return ResponseEntity.ok(ResponseMessage.success(200,"登录成功", tokenObj));
     }
 

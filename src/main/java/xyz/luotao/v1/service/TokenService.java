@@ -18,25 +18,23 @@ public class TokenService {
     //添加用户角色激活token
     public String addTokenUserRole(String email) {
         String uuid = UUID.randomUUID().toString();
-        User user = userMapper.FindByEmail(email);
-        boolean b = userRoleMapper.addTokenUserRole(user.getId(), uuid);
-        if (b) {
-            return uuid;
-        }
-        return null;
+        return userMapper.FindByEmail(email)
+                .filter(user -> userRoleMapper.addTokenUserRole(user.getId(), uuid))
+                .map(user -> uuid)
+                .orElse(null);
     }
 
     //根据email＋token激活用户
     public boolean verifyActivateUser(String email, String token) {
-        User user = userMapper.FindByEmail(email);
-        if (user == null) {
-            return false;
-        }
-        String activationCodeByUserId = userRoleMapper.getActivationCodeByUserId(user.getId());
-        if (activationCodeByUserId == null || !activationCodeByUserId.equals(token)) {
-            return false;
-        }
-        //激活用户
-        return userRoleMapper.updateUserRole(user.getId(), 4L);
+        return userMapper.FindByEmail(email)
+                .map(user -> {
+                    String activationCodeByUserId = userRoleMapper.getActivationCodeByUserId(user.getId());
+                    if (activationCodeByUserId == null || !activationCodeByUserId.equals(token)) {
+                        return false;
+                    }
+                    //激活用户
+                    return userRoleMapper.updateUserRole(user.getId(), 4L);
+                })
+                .orElse(false);
     }
 }

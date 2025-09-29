@@ -12,7 +12,7 @@ import xyz.luotao.v1.entity.User;
 import xyz.luotao.v1.mapper.IUserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import xyz.luotao.v1.mapper.PostLikeMapper;
+import xyz.luotao.v1.mapper.IPostLikeMapper;
 
 import java.util.List;
 
@@ -26,11 +26,11 @@ public class UserController {
     @Autowired
     private IUserMapper userMapper;
     @Autowired
-    private PostLikeMapper postLikeMapper;
+    private IPostLikeMapper IPostLikeMapper;
 
 
     //查询所有用户
-    @GetMapping
+    @GetMapping("/all")
     public ResponseEntity<ResponseMessage> query() {
         List<User> list = userMapper.FindAll();
         log.info("所有用户查询成功：", list);
@@ -54,7 +54,7 @@ public class UserController {
                     .status(HttpStatus.NOT_FOUND)
                     .body(new ResponseMessage(404, "用户未找到", null));
         }
-        List<Long> postIdsByUserId = postLikeMapper.FindLikedPostIdsByUserId(user.getId());
+        List<Long> postIdsByUserId = IPostLikeMapper.FindLikedPostIdsByUserId(user.getId());
         user.setLikedPostIds(postIdsByUserId);
         log.info("成功获取用户信息：{}", user);
         return ResponseEntity.ok(ResponseMessage.success(user));

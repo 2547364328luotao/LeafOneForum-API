@@ -1,5 +1,6 @@
 package xyz.luotao.v1.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
@@ -10,9 +11,10 @@ import org.hibernate.validator.constraints.Length;
 
 /**
 * 角色表
-* @TableName roles
+* @TableName Role
 */
-public class roles implements Serializable {
+@TableName(value ="roles")
+public class Role implements Serializable {
 
     /**
     * 
