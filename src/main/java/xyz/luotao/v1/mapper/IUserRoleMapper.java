@@ -1,18 +1,6 @@
-/*
- * @Author: Luo Tao 18727430326@163.com
- * @Date: 2025-09-29 16:11:08
- * @LastEditors: Luo Tao 18727430326@163.com
- * @LastEditTime: 2025-09-29 22:12:42
- * @FilePath: \v1-security\src\main\java\xyz\luotao\v1\mapper\IUserRoleMapper.java
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
 package xyz.luotao.v1.mapper;
 
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import xyz.luotao.v1.entity.UserRoles;
 
 import java.time.LocalDateTime;
@@ -21,9 +9,32 @@ import java.util.List;
 @Mapper
 public interface IUserRoleMapper {
 
-    // 添加用户的角色
-    @Insert("INSERT INTO user_roles(user_id) VALUES (#{userId})")
-    boolean addUserRole(@Param("userId") Long userId);
+    //分配用户角色
+        @Insert({
+        "<script>",
+        "INSERT INTO user_roles (user_id, role_id",
+        "<if test='grantedByUserId != null'>, granted_by_user_id</if>",
+        "<if test='effectiveAt != null'>, effective_at</if>",
+        "<if test='expiresAt != null'>, expires_at</if>",
+        "<if test='createdAt != null'>, created_at</if>",
+        ") VALUES (#{userId}, #{roleId}",
+        "<if test='grantedByUserId != null'>, #{grantedByUserId}</if>",
+        "<if test='effectiveAt != null'>, #{effectiveAt}</if>",
+        "<if test='expiresAt != null'>, #{expiresAt}</if>",
+        "<if test='createdAt != null'>, #{createdAt}</if>",
+        ")",
+        "</script>"
+    })
+    boolean assignRoleToUser(@Param("userId") Long userId,
+                             @Param("roleId") Long roleId,
+                             @Param("grantedByUserId") Long grantedByUserId,
+                             @Param("effectiveAt") LocalDateTime effectiveAt,
+                             @Param("expiresAt") LocalDateTime expiresAt,
+                             @Param("createdAt") LocalDateTime createdAt);
+
+    //撤销角色
+    @Delete("DELETE FROM user_roles WHERE user_id = #{userId} AND role_id = #{roleId}")
+    boolean revokeRoleFromUser(@Param("userId") Long userId, @Param("roleId") Long roleId);
 
     // 添加用户激活校验令牌
     @Insert("INSERT INTO user_roles(user_id, activation_code) VALUES (#{userId}, #{activationCode})")
@@ -46,6 +57,7 @@ public interface IUserRoleMapper {
     List<UserRoles> findByUserId(Long userId);
 
     // 根据用户ID和当前时间查询未过期的用户角色信息
-    @Select("SELECT * FROM user_roles WHERE user_id = #{userId} AND expires_at > #{date}")
+    //@Select("SELECT * FROM user_roles WHERE user_id = #{userId} AND expires_at > #{date}")
+    @Select("SELECT * FROM user_roles WHERE user_id = #{userId}")
     List<UserRoles> findByUserIdAndExpiresAtAfter(Long userId, LocalDateTime date);
 }

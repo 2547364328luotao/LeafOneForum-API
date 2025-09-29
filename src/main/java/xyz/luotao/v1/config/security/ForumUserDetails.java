@@ -1,12 +1,17 @@
 package xyz.luotao.v1.config.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
+import xyz.luotao.v1.controller.UserController;
+import xyz.luotao.v1.entity.User;
 import java.util.Collection;
 import java.util.List;
 
 public class ForumUserDetails implements UserDetails {
+
+    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     private final xyz.luotao.v1.entity.User user;
     /**
@@ -15,7 +20,7 @@ public class ForumUserDetails implements UserDetails {
     private final List<GrantedAuthority> authorities;
 
     // 构造函数注入
-    public ForumUserDetails(xyz.luotao.v1.entity.User user, List<GrantedAuthority> authorities) {
+    public ForumUserDetails(User user, List<GrantedAuthority> authorities) {
         this.user = user;
         this.authorities = authorities;
     }

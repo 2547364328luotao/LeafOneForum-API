@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xyz.luotao.v1.common.ResponseMessage;
@@ -30,10 +32,12 @@ public class UserController {
 
 
     //查询所有用户
+    @PreAuthorize("hasAuthority('forum.thread.create')")
     @GetMapping("/all")
-    public ResponseEntity<ResponseMessage> query() {
+    public ResponseEntity<ResponseMessage> query(Authentication authentication) {
+        log.info("当前用户权限：{}", authentication.getAuthorities());
         List<User> list = userMapper.FindAll();
-        log.info("所有用户查询成功：", list);
+        log.info("所有用户查询成功：{}", list);
         return ResponseEntity.ok(ResponseMessage.success(list));
     }
 

@@ -7,7 +7,7 @@ import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
-public class JwtUtil {
+public class    JwtUtil {
     // 七天过期
     public static final long JWT_EXPIRE = 7 * 24 * 60 * 60 * 1000;
     public static final String JWT_secret = "luotaoaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
