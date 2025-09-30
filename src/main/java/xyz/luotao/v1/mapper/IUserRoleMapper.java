@@ -54,10 +54,10 @@ public interface IUserRoleMapper {
 
     // 根据用户ID查询用户角色信息
     @Select("SELECT * FROM user_roles WHERE user_id = #{userId}")
-    List<UserRoles> findByUserId(Long userId);
+    List<UserRoles> findByUserId(@Param("userId") Long userId);
 
     // 根据用户ID和当前时间查询未过期的用户角色信息
-    //@Select("SELECT * FROM user_roles WHERE user_id = #{userId} AND expires_at > #{date}")
+    //@Select("SELECT * FROM user_roles WHERE user_id = #{userId} AND (expires_at IS NULL OR expires_at > #{date})")
     @Select("SELECT * FROM user_roles WHERE user_id = #{userId}")
-    List<UserRoles> findByUserIdAndExpiresAtAfter(Long userId, LocalDateTime date);
+    List<UserRoles> findByUserIdAndExpiresAtAfter(@Param("userId") Long userId, @Param("date") LocalDateTime date);
 }

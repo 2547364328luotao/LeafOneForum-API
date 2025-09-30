@@ -49,9 +49,9 @@ public class UserRoles implements Serializable {
     @ApiModelProperty("")
     private Date createdAt;
 
-    //激活验证码
+    //激活验证码，对应列 activation_code
     @ApiModelProperty("")
-    private String activatioCnode;
+    private String activationCode;
 
     /**
     * 
@@ -103,12 +103,12 @@ public class UserRoles implements Serializable {
     return this.userId;
     }
 
-    public String getActivatioCnode() {
-        return activatioCnode;
+    public String getActivationCode() {
+        return activationCode;
     }
 
-    public void setActivatioCnode(String activatioCnode) {
-        this.activatioCnode = activatioCnode;
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     /**
